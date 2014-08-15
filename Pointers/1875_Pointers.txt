@@ -1,0 +1,131 @@
+KO_PTR_CHR = &HC27C50
+KO_PTR_DLG = &HC27F44
+KO_PTR_PKT = &HC27F10
+KO_KEY_PTR = &HC27F0C
+KO_SNDX = &HC1D368
+KO_PARTY = &HC27F30
+KO_NODC = &HC202D0
+KO_MULTI = &HA630A0
+KO_FLDB = &HC27C4C
+KO_FPOX = &H5CA7B0
+KO_FPOZ = &H4A84D0
+KO_FPOB = &H4A7620
+KO_STMB =&H 828E20
+KO_FNCZ = &H828350
+KO_FNCX = &H828460
+KO_FNCB = &H828560
+KO_FMBS = &H4999E0
+KO_FPBS =&H 499960
+
+KO_RECVHK1 = &H9C7EE8
+KO_RECVHK2 = &H9C7EEC
+KO_RECVHK3 = &H9C7EF0
+KO_RCVHKB1 = &H23
+KO_RCVHKB2 = &H800850
+KO_RCVHKB3 = &H802F90
+
+
+My Packet Tools
+
+KO_CRP_PTR = 4668688
+KO_PKT_PTR = 12746512
+KO_SND_PTR = 12702568
+
+
+10 Tane Snd Fnc
+
+KO_SND_FNC(1) = &H475370
+KO_SND_FNC(2) = &H475760
+KO_SND_FNC(3) = &H475B20
+KO_SND_FNC(4) = &H475EF0
+KO_SND_FNC(5) = &H4762C0
+KO_SND_FNC(6) = &H476690
+KO_SND_FNC(7) =&H476A60
+KO_SND_FNC(8) = &H476E30
+KO_SND_FNC(9) = &H477200
+KO_SND_FNC(10) = &H4775D0
+
+
+Apr Fixer
+
+KO_APR_FIX(1) = C2E694
+KO_APR_FIX(2) = C34DA0
+KO_APR_FIX(4) = C34D84
+
+
+KO_PTR_CHR = bulamadim 
+KO_PTR_DLG = &HC27F44
+KO_PTR_PKT = &HC27F10
+KO_SND_FNC = &H475370
+KO_SND_PACKET = &H475A2E
+
+Multi için : &H630A0
+
+
+KO_PTR_CHR = &HC27C50
+KO_PTR_DLG = &HC27F44
+KO_PTR_PKT = &HC27F10
+KO_SND_FNC = &H475760
+KO_SND_PKT = KO_PTR_PKT + &HC1
+KO_OFF_PARTY = KO_PTR_PKT + &H20
+KO_KEYBPTR = KO_PTR_PKT - &H4
+KO_OFF_NODC = &HC212D0
+
+
+WriteLong &HC1D368, &H73233F17
+
+
+
+Function MobName() As String
+Dim a As Long, b As Long, c As Long, d As Long
+a = LongOku(LongOku(LongOku(LongOku(KO_PTR_DLG) + &H1BC) + 232) + 216)
+b = LongOku(a + &H8)
+c = LongOku(a + &HC)
+MobName = YaziOku(b, c)
+End Function
+getskillcount
+
+
+Function GetSkillCount()
+Dim Ptr As Long, tmpBase As Long
+Ptr = ReadLong(KO_PTR_DLG)
+tmpBase = ReadLong(Ptr + &H1B8)
+tmpBase = ReadLong(tmpBase + &H4)
+tmpBase = ReadLong(tmpBase + &HE4)
+GetSkillCount = tmpBase
+End Function
+GetCurrentSkill
+
+Kod:
+Function GetCurrentSkill(SkillNo As Integer)
+Dim i As Integer
+Dim Ptr As Long, tmpBase As Long
+Ptr = ReadLong(KO_PTR_DLG)
+tmpBase = ReadLong(Ptr + &H1B8)
+tmpBase = ReadLong(tmpBase + &H4)
+tmpBase = ReadLong(tmpBase + &HE0)
+For i = 1 To SkillNo
+tmpBase = ReadLong(tmpBase + &H0) 'soldan kaçinci skill?
+Next
+tmpBase = ReadLong(tmpBase + &H8)
+If tmpBase > 0 Then
+tmpBase = ReadLong(tmpBase + &H0) 've nihayet burasi skill kodunu tutan adres
+GetCurrentSkill = tmpBase
+Else
+GetCurrentSkill = 0
+End If
+End Function
+mobhp:
+
+Kod:
+Function MobHP()
+Dim MobBase As Long
+Dim MobBase2 As Long
+Dim tmpPtr As Long
+Dim MobHPS As Long
+tmpPtr = ReadLong(KO_PTR_DLG)
+MobBase = ReadLong(tmpPtr + &H1BC)
+MobBase2 = ReadLong(MobBase + &HD8)
+MobHPS = ReadLong(MobBase2 + &H100)
+MobHP = MobHPS
+End Function

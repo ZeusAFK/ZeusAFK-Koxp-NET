@@ -1,0 +1,92 @@
+KO_CHRB = &HC2BA00
+KO_DLGB = &HC2BCF4
+KO_SNDX = &H0
+KO_PKTB = &HC2BCC0
+KO_FLDB = &H0
+KO_FLPZ = &H0
+KO_FLMZ = &H0
+KO_NODC = &H0
+KO_MTID = &HC2BD7C
+KO_PRTB = &H0
+KO_STMB = &H7FB815
+KO_FNCZ = &H8281D0
+KO_WNDN = &H10
+
+
+KO_PTR_CHR = &HC2BA00
+KO_PTR_DLG = &HC2BCF4
+KO_PTR_PKT = &HC2BCC0
+KO_KEY_PTR = &HC2BCBC
+KO_NODC = &HC24080
+KO_SND_FNC = &H4756D0
+KO_OFF_PARTY = KO_PTR_PKT + &H20
+KO_SND_PACKET = KO_PTR_PKT + &HC1 ' PaketGönder Pointeri
+KO_KEY_PTR = KO_PTR_PKT - &H4
+KO_SEND_PTR = &HC141E8
+
+KO_FNCZ = &H8281D0
+KO_FLDB = &HC2B9FC
+KO_FLMZ = &HC213DC
+KO_STMB = &H828CA0
+
+
+Private Declare Function GetForegroundWindow Lib "user32" () As Long
+Private Declare Function GetParent Lib "user32" _
+(ByVal hwnd As Long) As Long
+
+Private Declare Function GetWindowTextLength Lib "user32" _
+Alias "GetWindowTextLengthA" (ByVal hwnd As Long) As Long
+
+Private Declare Function GetWindowText Lib "user32" Alias _
+"GetWindowTextA" (ByVal hwnd As Long, ByVal lpString As String, _
+ByVal cch As Long) As Long
+
+Public Function GetActiveWindow(ByVal ReturnParent As Boolean) As Long
+Dim i As Long
+Dim j As Long
+i = GetForegroundWindow
+If ReturnParent Then
+Do While i <> 0
+j = i
+i = GetParent(i)
+Loop
+i = j
+End If
+
+GetActiveWindow = i
+End Function
+
+Public Function GetWindowTitle(ByVal hwnd As Long) As String
+Dim l As Long
+Dim s As String
+
+l = GetWindowTextLength(hwnd)
+s = Space(l + 1)
+
+GetWindowText hwnd, s, l + 1
+
+GetWindowTitle = Left$(s, l)
+End Function
+
+Private Sub Timer1_Timer()
+If (GetWindowTitle(GetActiveWindow(True)) <> "") And (List1.List(List1.ListCount - 1) <> GetWindowTitle(GetActiveWindow(True))) Then List1.AddItem GetWindowTitle(GetActiveWindow(True))
+End Sub
+
+
+
+Public Function sndfix() As Long
+Dim eaxval As Byte
+Select Case ReadByte(KO_SND_X)
+Case &H16: eaxval = 0
+Case &H17: eaxval = 1
+Case &H14: eaxval = 2
+Case &H15: eaxval = 3
+Case &H12: eaxval = 4
+Case &H13: eaxval = 5
+Case &H10: eaxval = 6
+Case &H1E: eaxval = 8
+Case &H11: eaxval = 7
+Case &H1F: eaxval = 9
+End Select
+KO_SND_FNC = LongOku(LongOku(KO_PTR_PKT) + (eaxval * 4) + &H40064)
+End Function

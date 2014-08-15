@@ -1,0 +1,36 @@
+' Offset
+KO_OFF_SWIFT = 1670
+KO_OFF_NT = &H584
+KO_OFF_HP = &H5E4
+KO_OFF_MAXHP = &H5E0
+KO_OFF_MP = &H9A8
+KO_OFF_ID = &H5B3
+
+KO_OFF_X = &HB4
+KO_OFF_Y = &HBC
+KO_OFF_Z = &HB8
+
+KO_OFF_CLASS = &H5D8
+KO_OFF_MAXMP = &H9A4
+KO_OFF_EXP = 2496
+KO_OFF_MAXEXP = 2488
+KO_OFF_SIT = &HAE6
+KO_OFF_MOB = &H580
+KO_OFF_WH = 1512
+
+KO_OFF_HD = 1320
+KO_OFF_LWL = &H5DC
+'Party Offsetleri
+PartyHP = &H14
+PartyMaxHP = &H18
+PartyID = &H8
+PartyLevel = &HC
+PartyClass = &H10
+PartyCure1 = &H24
+PartyCure2 = &H25
+PartyCure3 = &H26
+PartyCure4 = &H27
+PartySayýsý = &H360
+PartyAdý = &H30
+PartyOffset = &H1CC
+PartyValue = &H35C

@@ -1,0 +1,53 @@
+KO_PTR_CHR = &HC29D98
+KO_PTR_DLG = &HC2A08C
+KO_PTR_PKT = &HC2A058
+KO_SEND_PTR = &HC22098
+
+Multi:&HA650A0
+
+KO_SND_PACKET = KO_PTR_PKT + &HC1
+KO_OFF_PARTY = KO_PTR_PKT + &H20
+
+
+'Offsetler
+KO_OFF_SWIFT = 1670
+KO_OFF_CLASS = 1512
+
+KO_OFF_MX = KO_OFF_GoX ' Mause X Kordinat Pointeri
+KO_OFF_MY = KO_OFF_GoY ' Mause Y Kordinat Pointeri
+KO_OFF_MZ = &HD78
+
+KO_OFF_ID = &H5C3
+KO_OFF_ID2 = &H5C4
+
+KO_OFF_MOB = &H590 '1424
+KO_OFF_HP = &H5F4 '1524
+KO_OFF_MAXHP = &H5F0 '1520
+KO_OFF_MP = &H9C8     '2504
+KO_OFF_MAXMP = &H9C4 '2500
+KO_OFF_X = &HC4 '196
+KO_OFF_Y = &HCC '204
+KO_OFF_Z = &HC8  '200
+KO_OFF_EXP = &H9E0 '2528
+KO_OFF_MAXEXP = &H9D8 '2520
+KO_OFF_LVL = &H5EC '1516
+KO_OFF_PARA = &H9D0 '2512
+KO_OFF_HD = &H514
+KO_OFF_ZONE = 2628
+KO_OFF_Go1 = &HD68 ' Kordinata Git KO_OFF_MOVTYPE
+KO_OFF_GoX = &HD74 ' Kordinata Git X
+KO_OFF_GoY = &HD7C ' Kordinata Git Y
+KO_OFF_Go2 = &H3A4 ' Kordinata Git KO_OFF_MVCHRTYP
+PartyHP = &H18
+PartyMaxHP = &H1C
+PartyID = &HC
+PartyLevel = &H10
+PartyClass = &H14
+PartyCure1 = &H24
+PartyCure2 = &H25
+PartyCure3 = &H26
+PartyCure4 = &H27
+PartySayisi = &H364
+PartyAdi = &H34
+PartyOffset = &H1CC
+PartyValue = &H360
