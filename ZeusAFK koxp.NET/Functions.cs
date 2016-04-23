@@ -263,39 +263,12 @@ namespace ZeusAFK_koxp.NET
             }
             //VirtualFreeEx(GameProcessHandle, BytesAddr, 0, MEM_RELEASE);
         }
-        /*
-            Function PaketGönder(pPacket() As Byte)
-            Dim psize As Long
-            Dim pCode() As Byte
-
-            psize = UBound(pPacket) - LBound(pPacket) + 1
-            If BytesAddr = 0 Then
-            BytesAddr = VirtualAllocEx(KO_HANDLE, 0, 1024, MEM_COMMIT, PAGE_READWRITE)
-            End If
-            If BytesAddr <> 0 Then
-                ByteDizisiYaz BytesAddr, pPacket, psize
-                Hex2Byte "608B0D" & AlignDWORD(KO_PTR_PKT) & "68" & AlignDWORD(psize) & "68" & AlignDWORD(BytesAddr) & "BF" & AlignDWORD(KO_SND_FNC) & "FFD7C605" & AlignDWORD(KO_SND_PACKET) & "0061C3", pCode
-                UzaktanKodÇalýþtýr pCode, True
-            End If
-            VirtualFreeEx KO_HANDLE, BytesAddr, 0, MEM_RELEASE&
-            End Function
-        */
 
         public void SendSkill(string Skill, string Target)
         {
             ExecuteRemoteCode(ToByteArray("608B0D" + AlignDWORD(new IntPtr(PTR_DLG)) + "8B89" + AlignDWORD(new IntPtr(0x3DC)) + "68" + Target + "68" + Skill + "B8" + AlignDWORD(new IntPtr(0x7896B0)) + "FFD061C3"));
         }
-        /*
-        Function SendsSkill(SkillB As Long, TargetID As Long)
-        Const KO_DLGP  As Long = &HC2E05C
-        Const KO_SKLF  As Long = &H7896B0
-        Const KO_SKLO  As Long = &H3DC
-
-        Dim pCode() As Byte
-        ConvHEX2ByteArray "608B0D" & AlignDWORD(KO_DLGP) & "8B89" & AlignDWORD(KO_SKLO) & "68" & AlignDWORD(TargetID) & "68" & AlignDWORD(SkillB) & "B8" & AlignDWORD(KO_SKLF) & "FFD061C3", pCode
-        ExecuteRemoteCode pCode, True
-        End Function
-        */
+       
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         public void log(string data)
         {
@@ -305,48 +278,6 @@ namespace ZeusAFK_koxp.NET
             }
             catch { }
         }
-
-        //[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-        /*private IntPtr ExecuteRemoteCode_original(byte[] pCode)
-        {
-            IntPtr ptr5;
-            IntPtr lpThreadID = new IntPtr(0);
-            IntPtr zero = IntPtr.Zero;
-            IntPtr lpBaseAddress = VirtualAllocEx(GameProcessHandle, IntPtr.Zero, pCode.Length, 0x1000, 4);
-            if (DEBUG_MODE)
-            {
-                log("Opcode: " + BitConverter.ToString(pCode, 0));
-                log("VAM Address: " + AlignDWORD(lpBaseAddress));
-            }
-            if (lpBaseAddress != IntPtr.Zero)
-            {
-                WriteProcessMemory(GameProcessHandle, lpBaseAddress, pCode, (long)pCode.Length, 0);
-            }
-            else
-            {
-                if (DEBUG_MODE)
-                    log(">>> Error commiting memory: " + AlignDWORD(lpBaseAddress));
-                VirtualFreeEx(GameProcessHandle, lpBaseAddress, 0, MEM_RELEASE);
-                return IntPtr.Zero;
-            }
-            IntPtr hProcess = CreateRemoteThread(GameProcessHandle, 0, 0, lpBaseAddress, 0, 0, ref lpThreadID);
-            if (Convert.ToBoolean(Convert.ToInt32(hProcess.ToString())))
-            {
-                ptr5 = WaitForSingleObject(hProcess, uint.MaxValue);
-                zero = lpThreadID;
-            }
-            CloseHandle(hProcess);
-            ptr5 = VirtualFreeEx(GameProcessHandle, lpBaseAddress, 0, 0x8000);
-            return zero;
-        }*/
-
-        /*
-        Private Type SECURITY_ATTRIBUTES
-            nLength As Long
-            lpSecurityDescriptor As Long
-            bInheritHandle As Long
-        End Type
-        */
 
         public IntPtr FuncPtr = IntPtr.Zero;
 
@@ -377,31 +308,6 @@ namespace ZeusAFK_koxp.NET
                 CloseHandle(hTread);
             }
         }
-        /*
-            Function UzaktanKodÇalýþtýr(pCode() As Byte, Optional WaitExecution As Boolean = False) As Long
-            Dim hThread As Long, ThreadID As Long, Ret As Long
-            Dim SE As SECURITY_ATTRIBUTES
-
-            SE.nLength = Len(SE)
-            SE.bInheritHandle = False
-
-            UzaktanKodÇalýþtýr = 0
-            If FuncPtr = 0 Then
-            FuncPtr = VirtualAllocEx(KO_HANDLE, 0, 1024, MEM_COMMIT, PAGE_READWRITE)
-            End If
-            If FuncPtr <> 0 Then
-                ByteDizisiYaz FuncPtr, pCode, UBound(pCode) - LBound(pCode) + 1
-  
-               hThread = CreateRemoteThread(ByVal KO_HANDLE, SE, 0, ByVal FuncPtr, 0&, 0&, ThreadID)
-               If hThread Then
-                  Ret = WaitForSingleObject(hThread, INFINITE)
-                  UzaktanKodÇalýþtýr = ThreadID
-               End If
-               CloseHandle hThread
-               Ret = VirtualFreeEx(KO_HANDLE, FuncPtr, 0, MEM_RELEASE)
-            End If
-            End Function
-        */
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
         public void Packet(string packet)
@@ -482,24 +388,6 @@ namespace ZeusAFK_koxp.NET
             eva = eva.Replace("ç", "");
             return eva;
         }
-
-        //public ArrayList mysql_queryReturn(string sql, int contDatos)
-        //{
-        //    Application.DoEvents();
-        //    if (conn.State != ConnectionState.Open)
-        //        conn.Open();
-        //    ArrayList rows = new ArrayList();
-        //    command = new MySqlCommand(sql, conn);
-        //    reader = command.ExecuteReader();
-        //    if (reader.HasRows)
-        //    {
-        //        reader.Read();
-        //        for (int i = 0; i < contDatos; i++)
-        //            rows.Add(reader.GetString(i));
-        //    }
-        //    reader.Close();
-        //    return rows;
-        //}
 
         public void Chat(string Message, string Type)
         {
